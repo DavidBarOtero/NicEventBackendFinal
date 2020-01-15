@@ -24,14 +24,14 @@ async function getLogged(req, res, next) {
   try {
     await validateSchema(userLoginData);
   } catch (e) {
-    return res.status(400).send(e);
+    return res.status(400).send("peta aki");
   }
 
   try {
-    const sqlQuery = `SELECT idUser,Name,LastName,Password,Email,Profession
+    const sqlQuery = `SELECT idUser,Name,LastName,Password,Email
         FROM Users 
-       
-        WHERE Email = '${userLoginData.email}'`;
+        Where Email = '${userLoginData.email}'`;
+
     const connection = await mysqlPool.getConnection();
     const [result] = await connection.query(sqlQuery);
     connection.release();
