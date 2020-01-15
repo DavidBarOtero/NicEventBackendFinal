@@ -4,57 +4,32 @@ const Joi = require("@hapi/joi");
 
 const mysqlPool = require("../../../database/mysqlPool");
 
-async function userValidateSchema(payload) {
-  const schema = Joi.object()({
+async function validateSchema(payload) {
+  const schema = Joi.object({
     name: Joi.string().required(),
     lastName: Joi.string().required(),
-
     email: Joi.string()
       .email()
       .required(),
     password: Joi.string()
       .regex(/^[a-zA-Z0-9]{3,30}$/)
-      .required(),
-    profession: Joi.string(),
-    fee: Joi.number()
+      .required()
   });
 
   Joi.assert(payload, schema);
 }
-// async function professionalValidateSchema(payload) {
-//   const schema = Joi.object()({
-//     name: Joi.string().required(),
-//     lastName: Joi.string().required(),
 
-//     email: Joi.string()
-//       .email()
-//       .required(),
-//     password: Joi.string()
-//       .regex(/^[a-zA-Z0-9]{3,30}$/)
-//       .required(),
-//     profession: Joi.string().required(),
-//     city: Joi.string().required(),
-//     fee: Joi.number().required()
-//   });
-
-//   Joi.assert(payload, schema);
-// }
 async function createAccount(req, res, next) {
   const accountData = {
     ...req.body
   };
+  console.log(accountData);
 
-  // const selectedSchema = async accountData => {
-  //   if (accountData.fee & accountData.profession & accountData.city) {
-  //     await professionalValidateSchema(accountData);
-  //   }
-  //   await userValidateSchema(accountData);
-  // };
   try {
-    await userValidateSchema(accountData);
+    await validateSchema(accountData);
     console.log(accountData);
   } catch (e) {
-    return res.status(400).send(e);
+    return res.status(400).send("falla");
   }
 
   const now = new Date();
@@ -78,28 +53,6 @@ async function createAccount(req, res, next) {
 
       CreatedAt: createdAt
     });
-
-    // let [rows] = await connection.query(
-    //   `SELECT idUser FROM Users WHERE Email="${accountData.email}"`
-    // );
-    // let idUserGetted = [rows][0][0].idUser;
-
-    // console.log(`" ${accountData.profession}","${userId}"`);
-    // accountData.profession = parseInt(accountData.profession);
-    // accountData.city = parseInt(accountData.city);
-    // accountData.fee = parseInt(accountData.fee);
-    // idUserGetted = parseInt(idUserGetted);
-    // console.log(userId);
-    // console.log(
-    //   `"${accountData.profession}","${accountData.city}","${accountData.fee}","${accountData.profession}","${idUserGetted}"`
-    // );
-
-    // await connection.query("INSERT INTO `Professionals` SET ?", {
-    //   idProfession: accountData.profession,
-    //   idCity: accountData.city,
-    //   idUser: idUserGetted,
-    //   Fee: accountData.fee
-    // });
 
     connection.release();
 
