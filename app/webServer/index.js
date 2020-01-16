@@ -12,7 +12,7 @@ app.use("/api/frontprofession", routes.frontProfession);
 app.use("/api/account", routes.account);
 app.use("/api/auth", routes.auth);
 app.use(
-  "/api/professionalfinder/:professionId/:cityId",
+  "/api/professionalfinder/:professionId/:cityId/:date",
   routes.professionalFinder
 );
 app.use("/api/find/professionals/:professionalId", routes.professionals);

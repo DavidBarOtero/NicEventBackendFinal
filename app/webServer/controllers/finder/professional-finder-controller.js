@@ -10,16 +10,16 @@ async function getProfessionals(req, res, next) {
   console.log(city);
 
   try {
-    const sqlQuery = `select * from Professionals 
-    
-    inner join Profession on Profession.idProfession=Professionals.idProfessional
-    where Profession.idProfession= ${id} and where idCity=${city}`;
+    const sqlQuery = `SELECT * from Professionals 
+    INNER JOIN Profession on Profession.idProfession=Professionals.idProfession
+    WHERE Profession.idProfession= ${profession} AND idCity=${city}`;
 
     const connection = await mysqlPool.getConnection();
     const result = await connection.query(sqlQuery);
+    // console.log(result[0]);
     connection.release();
 
-    res.status(200).send(result);
+    res.status(200).send(result[0]);
   } catch (e) {
     console.error(e);
 

@@ -18,13 +18,13 @@ async function validateSchema(payload) {
 }
 
 async function getLogged(req, res, next) {
-  const userLoginData = { ...req.body };
-
+  const userLoginData = { ...req.body.auth };
   console.log(userLoginData);
+
   try {
     await validateSchema(userLoginData);
   } catch (e) {
-    return res.status(400).send("peta aki");
+    return res.status(400).send(console.log("petaaki"));
   }
 
   try {
@@ -35,21 +35,22 @@ async function getLogged(req, res, next) {
     const connection = await mysqlPool.getConnection();
     const [result] = await connection.query(sqlQuery);
     connection.release();
+    console.log([result]);
     // res.send(result[0]);
 
     if (result.length !== 1) {
       return res.status(401).send();
     }
 
-    // if response.data.idProfessional=null, role=user
     const userData = result[0];
+    console.log(userData);
 
     const testPasswordLogin = await bcrypt.compare(
       userLoginData.password,
       userData.Password
     );
     if (!testPasswordLogin) {
-      return status(401).send();
+      return res.status(401).send();
     }
 
     const payloadJwt = {
