@@ -6,7 +6,6 @@ async function checkAccountSession(req, res, next) {
     return res.status(401).send("no hay token");
   }
 
-  // Bearer XXXXX
   const [prefix, token] = authorization.split(" ");
 
   if (prefix !== "Bearer") {
