@@ -7,9 +7,8 @@ async function getProfessionals(req, res, next) {
   console.log(res.data);
   console.log(id);
   const sqlQuery = `SELECT * from Professionals 
-  
-    inner join Profession on Profession.idProfession=Professionals.idProfessional
-    where Profession.idProfession= ${id} `;
+  where idCity=1 and idProfession= ${id} `;
+
   try {
     const connection = await mysqlPool.getConnection();
     const result = await connection.query(sqlQuery);

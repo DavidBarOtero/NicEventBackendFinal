@@ -9,11 +9,13 @@ async function payment(req, res, next) {
   console.log(professionalEmail);
   console.log(professionalName);
   const msg = {
-    to: "davidbarotero@gmail.com",
+    to: `${professionalEmail}`,
+
     from: "NiceEvent@gmail.com",
-    subject: "Nuevo evento confirmado y pagado",
-    text: `Hola ${professionalName} Has sido contratado para un evento en la siguiente fecha: `
+    subject: "Nuevo evento cerrado",
+    text: `¡¡Enhorabuena!! ${professionalName} has sido elegido para un evento en la siguiente fecha: `
   };
+  console.log(msg);
   try {
     const data = await sgMail.send(msg);
   } catch (err) {
