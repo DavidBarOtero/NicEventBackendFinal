@@ -15,7 +15,7 @@ app.use(
   "/api/professionalfinder/:professionId/:cityId/:date",
   routes.professionalFinder
 );
-
+app.use("/api/myevents", routes.myEvents);
 app.use("/api/payment", routes.payments);
 app.use("/api/find/professionals/:professionalId", routes.professionals);
 

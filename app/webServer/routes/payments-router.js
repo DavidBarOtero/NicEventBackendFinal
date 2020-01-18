@@ -5,4 +5,5 @@ const checkAccountSesion = require("./../controllers/account/check-account-sessi
 
 const payments = require("./../controllers/Payments/event-payment");
 router.post("/", checkAccountSesion, payments);
+
 module.exports = router;

@@ -6,6 +6,7 @@ const account = require("./account-router");
 const auth = require("./auth-router");
 const professionalFinder = require("./professional-finder-router");
 const payments = require("./../routes/payments-router");
+const myEvents = require("./myEvents-router");
 module.exports = {
   frontCities,
   frontProfession,
@@ -13,5 +14,6 @@ module.exports = {
   account,
   auth,
   professionalFinder,
-  payments
+  payments,
+  myEvents
 };
