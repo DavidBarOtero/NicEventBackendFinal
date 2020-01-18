@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 async function checkAccountSession(req, res, next) {
   const { authorization } = req.headers;
   if (!authorization) {
-    return res.status(401).send("no hay token");
+    return res.status(401).send();
   }
 
   const [prefix, token] = authorization.split(" ");

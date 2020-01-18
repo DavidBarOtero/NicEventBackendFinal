@@ -63,7 +63,7 @@ async function getLogged(req, res, next) {
     });
 
     const response = {
-      token: token,
+      tokenOk: token,
       expiresIn: jwtExpiresIn
     };
     console.log(response);
