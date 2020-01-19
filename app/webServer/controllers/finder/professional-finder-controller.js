@@ -14,20 +14,33 @@ async function getProfessionals(req, res, next) {
   //   .toISOString()
   //   .replace(/T/, " ")
   //   .replace(/\..+/, "");
-  const dateFormated = new Date(date)
-    .toISOString()
-    .replace("T", " ")
-    .substr(0, 10);
-  console.log(dateFormated);
+  const dateFormated = new Date(date);
+  var dd = dateFormated.getDate();
 
+  var mm = dateFormated.getMonth() + 1;
+  var yyyy = dateFormated.getFullYear();
+  if (dd < 10) {
+    dd = "0" + dd;
+  }
+
+  if (mm < 10) {
+    mm = "0" + mm;
+  }
+  var fecha = yyyy + "-" + mm + "-" + dd;
+  // .replace("T", " ")
+  // .substr(0, 10);
+
+  // console.log(dateFormated);
   try {
-    const sqlQuery = `SELECT * from Professionals 
-    INNER JOIN Profession ON Profession.idProfession=Professionals.idProfession
-  
-    WHERE Profession.idProfession= ${profession} AND idCity=${city} order by RatingAverage desc`;
+    const sqlQuery = `select * from Professionals p,Profession x
+where p.idProfessional not in(
+select idProfessional FROM Events
+WHERE Date=\'${fecha}\') and p.idProfession=${profession}
+and x.idProfession=${profession}  AND idCity=${city} order by RatingAverage desc`;
 
     const connection = await mysqlPool.getConnection();
     const result = await connection.query(sqlQuery);
+    console.log(sqlQuery);
     // console.log(result[0]);
     connection.release();
 
