@@ -24,7 +24,7 @@ async function getProfessionals(req, res, next) {
     const sqlQuery = `SELECT * from Professionals 
     INNER JOIN Profession ON Profession.idProfession=Professionals.idProfession
   
-    WHERE Profession.idProfession= ${profession} AND idCity=${city} `;
+    WHERE Profession.idProfession= ${profession} AND idCity=${city} order by RatingAverage desc`;
 
     const connection = await mysqlPool.getConnection();
     const result = await connection.query(sqlQuery);

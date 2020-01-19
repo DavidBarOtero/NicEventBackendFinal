@@ -8,7 +8,8 @@ async function myEvents(req, res, next) {
   try {
     const sqlQuery = `SELECT * FROM Events 
 inner join Professionals on Professionals.idProfessional=Events.idProfessional
-where Events.idOrganizer=${userId}`;
+where Events.idOrganizer=${userId} order by Date desc`;
+
     const connection = await mysqlPool.getConnection();
     const result = await connection.query(sqlQuery);
     connection.release();

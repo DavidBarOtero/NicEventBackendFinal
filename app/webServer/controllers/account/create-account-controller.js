@@ -1,6 +1,7 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const Joi = require("@hapi/joi");
+const jwt = require("jsonwebtoken");
 
 const mysqlPool = require("../../../database/mysqlPool");
 
@@ -20,17 +21,18 @@ async function validateSchema(payload) {
 }
 
 async function createAccount(req, res, next) {
-  const accountData = {
-    ...req.body
-  };
+  const accountData = req.body;
+
   console.log(accountData);
 
-  try {
-    await validateSchema(accountData);
-    console.log(accountData);
-  } catch (e) {
-    return res.status(400).send("falla");
-  }
+  // try {
+  //   await validateSchema(accountData);
+  //   console.log(accountData);
+  // } catch (e) {
+  //   return res.status(400).send({
+  //     message: { esquema: "falla" }
+  //   });
+  // }
 
   const now = new Date();
 
@@ -53,11 +55,28 @@ async function createAccount(req, res, next) {
 
       CreatedAt: createdAt
     });
+    console.log(accountData);
 
     connection.release();
 
-    return res.status(201).send(res => {
-      console.log("REGISTRAU");
+    // const payloadJwt = {
+    //   userId: userData.idUser
+    // };
+
+    // const jwtExpiresIn = parseInt(process.env.AUTH_ACCESS_TOKEN_TTL);
+    // const token = jwt.sign(payloadJwt, process.env.AUTH_JWT_SECRET, {
+    //   expiresIn: jwtExpiresIn
+    // });
+
+    // const response = {
+    //   tokenOk: token,
+    //   expiresIn: jwtExpiresIn
+    // };
+
+    return res.status(201).send({
+      response: {
+        code: 200
+      }
     });
   } catch (e) {
     if (connection) {
